@@ -15,9 +15,6 @@
       --green-light: #4fffa4;
       --dark-green: #03333b;
       --white: #fff;
-      --muted: rgba(255,255,255,.78);
-      --glass: rgba(255,255,255,.10);
-      --glass-strong: rgba(255,255,255,.16);
       --danger-bg: #f8d7da;
       --danger-text: #842029;
       --success-bg: #d1e7dd;
@@ -27,7 +24,6 @@
     }
 
     * { box-sizing: border-box; }
-
     html { min-height: 100%; }
 
     body {
@@ -118,8 +114,6 @@
       background: #333;
     }
 
-    #reader > * { max-width: 100%; }
-
     #reader video {
       width: 100% !important;
       height: 100% !important;
@@ -180,16 +174,8 @@
       transition: .2s ease;
     }
 
-    .button-base:hover {
-      background: #33d58d;
-      transform: translateY(-1px);
-    }
-
-    .button-base:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .button-base:hover { background: #33d58d; transform: translateY(-1px); }
+    .button-base:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 
     #btnRanking {
       margin-top: 15px;
@@ -197,7 +183,6 @@
       background: #3498db;
       color: #fff;
     }
-
     #btnRanking:hover { background: #2980b9; }
 
     .notification {
@@ -210,23 +195,9 @@
       box-shadow: inset 0 0 5px rgba(0,0,0,.1);
     }
 
-    .notification.success {
-      display: block;
-      background: var(--success-bg);
-      color: var(--success-text);
-    }
-
-    .notification.error {
-      display: block;
-      background: var(--danger-bg);
-      color: var(--danger-text);
-    }
-
-    .notification.info {
-      display: block;
-      background: rgba(255,255,255,.16);
-      color: #fff;
-    }
+    .notification.success { display: block; background: var(--success-bg); color: var(--success-text); }
+    .notification.error { display: block; background: var(--danger-bg); color: var(--danger-text); }
+    .notification.info { display: block; background: rgba(255,255,255,.16); color: #fff; }
 
     #ranking {
       display: none;
@@ -242,27 +213,11 @@
 
     #ranking::-webkit-scrollbar { width: 8px; }
     #ranking::-webkit-scrollbar-track { background: rgba(255,255,255,.1); }
-    #ranking::-webkit-scrollbar-thumb {
-      background-color: rgba(255,255,255,.5);
-      border-radius: 20px;
-    }
+    #ranking::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,.5); border-radius: 20px; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      color: #fff;
-      font-size: .85rem;
-    }
-
-    table th, table td {
-      padding: 8px 4px;
-      border-bottom: 1px solid rgba(255,255,255,.3);
-    }
-
-    table th {
-      text-align: left;
-      font-weight: 600;
-    }
+    table { width: 100%; border-collapse: collapse; color: #fff; font-size: .85rem; }
+    table th, table td { padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,.3); }
+    table th { text-align: left; font-weight: 600; }
 
     footer {
       width: 100%;
@@ -278,26 +233,18 @@
       body { padding: 15px 10px; }
       header img { width: 100px; }
       header h1 { font-size: 1.5rem; }
-      main {
-        border-radius: 20px;
-        margin-bottom: 15px;
-      }
+      main { border-radius: 20px; margin-bottom: 15px; }
     }
 
     @media (max-width: 600px) {
-      main {
-        width: calc(100vw - (2 * var(--mobile-side-padding)));
-        max-width: none;
-      }
+      main { width: calc(100vw - (2 * var(--mobile-side-padding))); max-width: none; }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <img
-      src="https://aisyiyah.or.id/wp-content/uploads/2023/09/aisyiyah-putih.png"
-      alt="Logo Aisyiyah">
+    <img src="https://aisyiyah.or.id/wp-content/uploads/2023/09/aisyiyah-putih.png" alt="Logo Aisyiyah">
     <h1>Presensi Baitul Arqom</h1>
   </header>
 
@@ -316,12 +263,14 @@
     <div id="reader">
       <div id="cameraPlaceholder" class="camera-placeholder">
         Kamera belum diaktifkan.<br>
-        Tekan <b>Mulai Scan QR</b> setelah memilih sesi.
+        Tekan <b>Mulai Scan QR</b> di bawah setelah memilih sesi.
       </div>
-      <button id="startScannerButton" class="button-base" onclick="startScanner()">
-        Mulai Scan QR
-      </button>
     </div>
+    
+    <!-- Tombol dikeluarkan dari div reader agar tidak tertumpuk area kamera -->
+    <button id="startScannerButton" class="button-base" onclick="startScanner()">
+      Mulai Scan QR
+    </button>
 
     <div id="statusNotif" class="notification info">
       Menghubungkan ke sistem...
@@ -336,38 +285,16 @@
 
   <footer>© MPKSDI PDM Wonosobo</footer>
 
-  <audio id="soundSuccess"
-    src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1f44f1d3e4.mp3?filename=success-1-6297.mp3"
-    preload="auto"></audio>
-  <audio id="soundError"
-    src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_12b2f9bbcb.mp3?filename=error-126627.mp3"
-    preload="auto"></audio>
-
-  <!--
-    ============================================================
-    BACKEND BRIDGE
-    Ganti URL di bawah dengan URL Web App Apps Script /exec.
-    Bridge dibuat tidak terlihat. Kamera TIDAK berada di iframe ini.
-    ============================================================
-  -->
-  <iframe
-    id="backendBridge"
-    src="https://script.google.com/macros/s/AKfycbw15dezQdalWum3aGAEveiACeks02_woewx3XWBA-v0dZl9RrZltU40gKe1DSFYPu2-/exec"
-    title="Backend Bridge"
-    style="
-      position:fixed;
-      width:1px;
-      height:1px;
-      left:-20px;
-      bottom:-20px;
-      border:0;
-      opacity:0;
-      pointer-events:none;
-    "
-    aria-hidden="true">
-  </iframe>
+  <!-- Audio diubah ke sistem Google yang aman dan diizinkan -->
+  <audio id="soundSuccess" src="https://actions.google.com/sounds/v1/ui/message_notification.ogg" preload="auto"></audio>
+  <audio id="soundError" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
 
   <script>
+    // ===============================================================
+    // MASUKKAN URL WEB APP ANDA YANG BARU DI SINI
+    // ===============================================================
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw15dezQdalWum3aGAEveiACeks02_woewx3XWBA-v0dZl9RrZltU40gKe1DSFYPu2-/exec';
+
     const soundSuccess = document.getElementById('soundSuccess');
     const soundError = document.getElementById('soundError');
     const statusNotif = document.getElementById('statusNotif');
@@ -375,22 +302,18 @@
     const cameraSelect = document.getElementById('cameraSelect');
     const rankingDiv = document.getElementById('ranking');
     const readerDiv = document.getElementById('reader');
-    const startButton = document.getElementById('startScannerButton');
-    const cameraPlaceholder = document.getElementById('cameraPlaceholder');
-    const bridge = document.getElementById('backendBridge');
+    let startButton = document.getElementById('startScannerButton');
+    let cameraPlaceholder = document.getElementById('cameraPlaceholder');
 
     let html5QrCode = null;
     let isScanningActive = false;
     let isProcessingScan = false;
     let selectedCameraId = null;
     let availableDevices = [];
-    let bridgeReady = false;
-    let bridgePingAttempts = 0;
 
     function showNotif(msg, isError = false, type = null) {
       statusNotif.textContent = msg;
-      statusNotif.className =
-        'notification ' + (type || (isError ? 'error' : 'success'));
+      statusNotif.className = 'notification ' + (type || (isError ? 'error' : 'success'));
       statusNotif.style.display = 'block';
     }
 
@@ -406,94 +329,64 @@
       return readerDiv.querySelector('video');
     }
 
-    function postToBridge(message) {
-      if (!bridge || !bridge.contentWindow) {
-        showNotif('❌ Backend Bridge tidak tersedia.', true);
-        return false;
+    // Fungsi komunikasi HTTP POST ke Apps Script
+    async function sendApiRequest(payload) {
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' } // text/plain menghindari block CORS
+        });
+        
+        const data = await res.json();
+        handleApiResponse(data);
+      } catch (err) {
+        showNotif('❌ Koneksi ke server gagal: Pastikan SCRIPT_URL sudah benar', true);
+        if (payload.type === 'BA_RECORD_ATTENDANCE') {
+          isProcessingScan = false;
+          if (html5QrCode && isScanningActive) {
+            try { html5QrCode.resume(); } catch (_) {}
+          }
+        }
       }
-
-      bridge.contentWindow.postMessage(message, '*');
-      return true;
     }
 
-    function requestSessions() {
-      if (!bridgeReady) {
-        showNotif('⏳ Menunggu koneksi backend...', false, 'info');
-        return;
-      }
-
-      console.log('[APP] Meminta daftar sesi...');
-      postToBridge({ type: 'BA_GET_SESSIONS' });
-    }
-
-    function requestRanking() {
-      postToBridge({ type: 'BA_GET_RANKING' });
-    }
-
-    function handleBridgeMessage(event) {
-      if (!bridge || event.source !== bridge.contentWindow) return;
-
-      const origin = event.origin || '';
-      if (
-        origin !== 'https://script.google.com' &&
-        !origin.endsWith('.googleusercontent.com')
-      ) {
-        return;
-      }
-
-      const data = event.data || {};
-      console.log('[BRIDGE]', data.type, data);
-
-      if (data.type === 'BA_BRIDGE_READY') {
-        bridgeReady = true;
-        showNotif('✅ Terhubung ke sistem presensi.', false);
-        requestSessions();
-        return;
-      }
+    function handleApiResponse(data) {
+      if (!data) return;
 
       if (data.type === 'BA_SESSIONS_RESULT') {
         if (!data.success) {
-          showNotif(
-            '❌ Gagal memuat jadwal sesi: ' +
-            (data.message || 'Kesalahan tidak diketahui'),
-            true
-          );
+          showNotif('❌ Gagal memuat jadwal sesi: ' + (data.message || 'Error'), true);
           return;
         }
-
-        const sessions = Array.isArray(data.data) ? data.data : [];
-        populateSessions(sessions);
-        return;
-      }
-
-      if (data.type === 'BA_ATTENDANCE_RESULT') {
+        populateSessions(data.data || []);
+      } 
+      else if (data.type === 'BA_ATTENDANCE_RESULT') {
         handleAttendanceResult(data);
-        return;
-      }
-
-      if (data.type === 'BA_RANKING_RESULT') {
+      } 
+      else if (data.type === 'BA_RANKING_RESULT') {
         if (!data.success) {
-          showNotif(
-            '❌ Gagal mengambil ranking: ' +
-            (data.message || 'Kesalahan tidak diketahui'),
-            true
-          );
+          showNotif('❌ Gagal mengambil ranking: ' + (data.message || 'Error'), true);
           if (html5QrCode && isScanningActive) html5QrCode.resume();
           return;
         }
-
         tampilkanRanking(data.data || []);
       }
     }
 
-    window.addEventListener('message', handleBridgeMessage);
+    function requestSessions() {
+      showNotif('⏳ Memuat daftar sesi dari server...', false, 'info');
+      sendApiRequest({ type: 'BA_GET_SESSIONS' });
+    }
+
+    function requestRanking() {
+      sendApiRequest({ type: 'BA_GET_RANKING' });
+    }
 
     function populateSessions(sessions) {
       kodeSesiSelect.innerHTML = '';
-
       if (!sessions.length) {
-        kodeSesiSelect.innerHTML =
-          '<option value="" disabled selected>Belum ada sesi pada Jadwal</option>';
+        kodeSesiSelect.innerHTML = '<option value="" disabled selected>Belum ada sesi pada Jadwal</option>';
         showNotif('⚠️ Belum ada sesi pada sheet Jadwal.', true);
         return;
       }
@@ -508,15 +401,21 @@
       sessions.forEach(session => {
         const option = document.createElement('option');
         option.value = session.kode || '';
-        option.textContent =
-          `${session.nama || session.kode || 'Sesi'}${session.waktu ? ' (' + session.waktu + ')' : ''}`;
+        option.textContent = `${session.nama || session.kode || 'Sesi'}${session.waktu ? ' (' + session.waktu + ')' : ''}`;
         kodeSesiSelect.appendChild(option);
       });
 
-      showNotif(
-        `✅ ${sessions.length} sesi berhasil dimuat. Silakan pilih sesi.`,
-        false
-      );
+      showNotif(`✅ ${sessions.length} sesi berhasil dimuat. Silakan pilih sesi.`, false);
+    }
+
+    function detectCameras() {
+      Html5Qrcode.getCameras().then(devices => {
+        populateCameraSelect(devices);
+      }).catch(err => {
+        cameraSelect.innerHTML = '<option value="">Gagal deteksi kamera</option>';
+        cameraSelect.disabled = true;
+        showNotif('❌ Gagal mendapatkan daftar kamera. Pastikan izin kamera tersedia.', true);
+      });
     }
 
     function populateCameraSelect(devices) {
@@ -524,8 +423,7 @@
       cameraSelect.innerHTML = '';
 
       if (!availableDevices.length) {
-        cameraSelect.innerHTML =
-          '<option value="">Tidak ada kamera ditemukan</option>';
+        cameraSelect.innerHTML = '<option value="">Tidak ada kamera ditemukan</option>';
         cameraSelect.disabled = true;
         showNotif('❌ Tidak ada kamera ditemukan di perangkat ini.', true);
         return;
@@ -540,73 +438,45 @@
         const option = document.createElement('option');
         option.value = device.id;
 
-        if (
-          lower.includes('back') ||
-          lower.includes('rear') ||
-          lower.includes('environment') ||
-          lower.includes('belakang')
-        ) {
+        if (lower.includes('back') || lower.includes('rear') || lower.includes('environment') || lower.includes('belakang')) {
           option.textContent = `Kamera Belakang: ${label.replace(/[()]/g, '')}`;
           if (!defaultId) defaultId = device.id;
-        } else if (
-          lower.includes('front') ||
-          lower.includes('user') ||
-          lower.includes('depan')
-        ) {
+        } else if (lower.includes('front') || lower.includes('user') || lower.includes('depan')) {
           option.textContent = `Kamera Depan: ${label.replace(/[()]/g, '')}`;
         } else {
           option.textContent = label;
         }
-
         cameraSelect.appendChild(option);
       });
 
       selectedCameraId = defaultId || availableDevices[0].id;
       cameraSelect.value = selectedCameraId;
-
-      if (bridgeReady && kodeSesiSelect.value) {
-        showNotif('Pilih kamera lalu tekan "Mulai Scan QR".');
-      }
     }
 
     function switchCamera() {
       const newCameraId = cameraSelect.value;
       if (!newCameraId || newCameraId === selectedCameraId) return;
-
       selectedCameraId = newCameraId;
 
       if (isScanningActive) {
-        stopScanner()
-          .then(() => startScanningProcess(selectedCameraId))
-          .catch(err => {
-            showNotif('❌ Gagal mengganti kamera: ' + err, true);
+        stopScanner().then(() => startScanningProcess(selectedCameraId)).catch(err => {
+            showNotif('❌ Gagal mengganti kamera', true);
             startButton.style.display = 'block';
-          });
+        });
       }
     }
 
     function startScanningProcess(cameraId) {
       const device = availableDevices.find(d => d.id === cameraId);
       const label = device ? (device.label || '').toLowerCase() : '';
-      const facingMode =
-        (label.includes('back') ||
-         label.includes('rear') ||
-         label.includes('environment') ||
-         label.includes('belakang'))
-          ? 'environment'
-          : 'user';
+      const facingMode = (label.includes('front') || label.includes('user') || label.includes('depan')) ? 'user' : 'environment';
 
       html5QrCode.start(
         cameraId,
-        {
-          fps: 10,
-          aspectRatio: 1.0,
-          disableFlip: true
-        },
+        { fps: 10, aspectRatio: 1.0, disableFlip: true },
         onScanSuccess,
         onScanFailure
-      )
-      .then(() => {
+      ).then(() => {
         isScanningActive = true;
         cameraPlaceholder.style.display = 'none';
         showNotif('✅ Kamera aktif. Siap untuk scan.', false);
@@ -614,56 +484,40 @@
         setTimeout(() => {
           const video = findQrVideoElement();
           if (!video) return;
-
           if (facingMode === 'user') {
             video.classList.add('mirror-mode');
           } else {
             video.classList.remove('mirror-mode');
           }
         }, 300);
-      })
-      .catch(err => {
+      }).catch(err => {
         isScanningActive = false;
         cameraPlaceholder.style.display = 'flex';
         startButton.style.display = 'block';
-        showNotif(
-          '❌ Gagal memulai kamera. Pastikan izin kamera diberikan: ' + err,
-          true
-        );
+        showNotif('❌ Gagal memulai kamera. Pastikan izin kamera diberikan.', true);
       });
     }
 
     function stopScanner() {
-      if (!isScanningActive || !html5QrCode) {
-        return Promise.resolve();
-      }
+      if (!isScanningActive || !html5QrCode) return Promise.resolve();
 
-      return html5QrCode.stop()
-        .then(() => {
-          isScanningActive = false;
-          cameraPlaceholder.style.display = 'flex';
-          readerDiv.querySelectorAll('video').forEach(v => {
-            v.classList.remove('mirror-mode');
-          });
-          readerDiv.querySelectorAll('canvas').forEach(c => c.remove());
+      return html5QrCode.stop().then(() => {
+        isScanningActive = false;
+        readerDiv.querySelectorAll('video, canvas').forEach(el => el.remove());
 
-          readerDiv.innerHTML = `
-            <div id="cameraPlaceholder" class="camera-placeholder">
-              Kamera belum diaktifkan.<br>
-              Tekan <b>Mulai Scan QR</b> setelah memilih sesi.
-            </div>
-            <button id="startScannerButton" class="button-base" onclick="startScanner()">
-              Mulai Scan QR
-            </button>
-          `;
-
-          cameraPlaceholder = document.getElementById('cameraPlaceholder');
-          startButton = document.getElementById('startScannerButton');
-        })
-        .catch(err => {
-          console.error('Error stopping scanner:', err);
-          isScanningActive = false;
-        });
+        // Kembalikan placeholder ke dalam reader
+        readerDiv.innerHTML = `
+          <div id="cameraPlaceholder" class="camera-placeholder">
+            Kamera belum diaktifkan.<br>
+            Tekan <b>Mulai Scan QR</b> di bawah setelah memilih sesi.
+          </div>
+        `;
+        cameraPlaceholder = document.getElementById('cameraPlaceholder');
+        startButton = document.getElementById('startScannerButton');
+        startButton.style.display = 'block'; // Tombol di luar dimunculkan kembali
+      }).catch(err => {
+        isScanningActive = false;
+      });
     }
 
     function startScanner() {
@@ -671,9 +525,7 @@
         showNotif('⚠️ Pilih sesi kegiatan terlebih dahulu.', true);
         return;
       }
-
       if (isScanningActive) return;
-
       if (!selectedCameraId) {
         showNotif('⚠️ Kamera belum siap.', true);
         return;
@@ -686,16 +538,13 @@
       if (!html5QrCode) {
         html5QrCode = new Html5Qrcode('reader');
       }
-
       startScanningProcess(selectedCameraId);
     }
 
     function resetScanArea() {
       stopScanner().then(() => {
         rankingDiv.style.display = 'none';
-        if (kodeSesiSelect.value) {
-          showNotif('✅ Sesi dipilih. Tekan "Mulai Scan QR".');
-        }
+        if (kodeSesiSelect.value) showNotif('✅ Sesi dipilih. Tekan "Mulai Scan QR".');
       });
     }
 
@@ -705,22 +554,17 @@
       const nomorId = String(qrCodeMessage || '').trim();
       const kodeSesi = kodeSesiSelect.value;
 
-      if (!nomorId) return;
-
-      if (!kodeSesi) {
-        showNotif('⚠️ Pilih sesi kegiatan terlebih dahulu.', true);
-        return;
-      }
+      if (!nomorId || !kodeSesi) return;
 
       isProcessingScan = true;
-
       if (html5QrCode && isScanningActive) {
         try { html5QrCode.pause(true); } catch (_) {}
       }
 
       showNotif('⏳ Memproses ID: ' + nomorId + '...', false, 'info');
-
-      postToBridge({
+      
+      // MENGGUNAKAN API BARU ALIH-ALIH BRIDGE
+      sendApiRequest({
         type: 'BA_RECORD_ATTENDANCE',
         nomorId: nomorId,
         kodeSesi: kodeSesi
@@ -729,16 +573,12 @@
 
     function handleAttendanceResult(res) {
       isProcessingScan = false;
-
       if (res && res.success) {
         playSound(soundSuccess);
         showNotif(res.message || '✅ Presensi berhasil.', false);
       } else {
         playSound(soundError);
-        showNotif(
-          (res && res.message) || '❌ Presensi gagal.',
-          true
-        );
+        showNotif((res && res.message) || '❌ Presensi gagal.', true);
       }
 
       setTimeout(() => {
@@ -748,24 +588,19 @@
       }, res && res.success ? 2500 : 3500);
     }
 
-    function onScanFailure(_) {
-      // Normal: html5-qrcode memanggil callback ini terus-menerus
-      // ketika belum menemukan QR.
-    }
+    function onScanFailure(_) { } // Abaikan error pencarian frame per detik
 
     function lihatRanking() {
       if (isScanningActive && html5QrCode) {
         try { html5QrCode.pause(true); } catch (_) {}
       }
-
       showNotif('⏳ Memperbarui ranking...', false, 'info');
       requestRanking();
     }
 
     function tampilkanRanking(data) {
       if (!data || !data.length) {
-        rankingDiv.innerHTML =
-          '<p>Belum ada data ranking absensi.</p>';
+        rankingDiv.innerHTML = '<p>Belum ada data ranking absensi.</p>';
         rankingDiv.style.display = 'block';
         if (html5QrCode && isScanningActive) {
           try { html5QrCode.resume(); } catch (_) {}
@@ -773,33 +608,17 @@
         return;
       }
 
-      let html =
-        '<table>' +
-        '<tr>' +
-        '<th>Rank</th>' +
-        '<th>ID</th>' +
-        '<th>Jumlah Sesi</th>' +
-        '<th>% Tertib</th>' +
-        '</tr>';
-
+      let html = '<table><tr><th>Rank</th><th>ID</th><th>Sesi</th><th>% Tertib</th></tr>';
       data.forEach(row => {
-        const rank = row.peringkat ?? row[0] ?? '';
-        const id = row.id ?? row[1] ?? '';
-        const hadir = row.hadir ?? row[2] ?? '';
-        const persen = row.persentase ?? row[3] ?? '';
-
-        html +=
-          `<tr><td>${escapeHtml(rank)}</td>` +
-          `<td>${escapeHtml(id)}</td>` +
-          `<td>${escapeHtml(hadir)}</td>` +
-          `<td>${escapeHtml(persen)}</td></tr>`;
+        html += `<tr><td>${escapeHtml(row.peringkat ?? row[0])}</td>` +
+                `<td>${escapeHtml(row.id ?? row[1])}</td>` +
+                `<td>${escapeHtml(row.hadir ?? row[2])}</td>` +
+                `<td>${escapeHtml(row.persentase ?? row[3])}</td></tr>`;
       });
-
       html += '</table>';
 
       rankingDiv.innerHTML = html;
       rankingDiv.style.display = 'block';
-
       showNotif('✅ Ranking berhasil diperbarui.', false);
 
       if (html5QrCode && isScanningActive) {
@@ -808,52 +627,14 @@
     }
 
     function escapeHtml(value) {
-      return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    function detectCameras() {
-      Html5Qrcode.getCameras()
-        .then(devices => {
-          populateCameraSelect(devices);
-        })
-        .catch(err => {
-          console.error('[CAMERA]', err);
-          cameraSelect.innerHTML =
-            '<option value="">Gagal deteksi kamera</option>';
-          cameraSelect.disabled = true;
-          showNotif(
-            '❌ Gagal mendapatkan daftar kamera. Pastikan izin kamera tersedia.',
-            true
-          );
-        });
-    }
-
-    function pingBridge() {
-      bridgePingAttempts++;
-
-      if (bridgePingAttempts > 10 && !bridgeReady) {
-        showNotif(
-          '❌ Backend belum terhubung. Pastikan URL Apps Script /exec benar.',
-          true
-        );
-        return;
-      }
-
-      postToBridge({ type: 'BA_BRIDGE_PING' });
-
-      if (!bridgeReady) {
-        setTimeout(pingBridge, 1000);
-      }
+      return String(value ?? '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      })[m]);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       detectCameras();
-      setTimeout(pingBridge, 700);
+      requestSessions(); // Langsung eksekusi, tidak butuh ping Bridge lagi
     });
   </script>
 </body>
