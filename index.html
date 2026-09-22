@@ -336,17 +336,16 @@
 
   <footer>© MPKSDI PDM Wonosobo</footer>
 
+  <!-- Audio Bebas Akses CDN CDNJS -->
   <audio id="soundSuccess"
-    src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1f44f1d3e4.mp3?filename=success-1-6297.mp3"
+    src="https://cdnjs.cloudflare.com/ajax/libs/sound-effects/1.0.1/success.mp3"
     preload="auto"></audio>
   <audio id="soundError"
-    src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_12b2f9bbcb.mp3?filename=error-126627.mp3"
+    src="https://cdnjs.cloudflare.com/ajax/libs/sound-effects/1.0.1/error.mp3"
     preload="auto"></audio>
 
   <script>
-    // =========================================================================
-    // URL Deployment Web App Google Apps Script API Anda
-    // =========================================================================
+    // URL Web App Apps Script Baru
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7pCG4w4981dSHCPY9cMXVb3s9Ej0RGsDvOmsGcF7bdlMCDW0PsVSKCqAWMNq0um4Z/exec";
 
     const soundSuccess = document.getElementById('soundSuccess');
@@ -383,7 +382,6 @@
       return readerDiv.querySelector('video');
     }
 
-    // HTTP POST Direct ke Apps Script API
     async function sendApiRequest(payload) {
       try {
         const response = await fetch(SCRIPT_URL, {
